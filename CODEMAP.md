@@ -16,6 +16,7 @@
 | Đổi Money / tiền | `src/s_n_sales/domain/money.py` | không float; test biên |
 | Pipeline draft từ observation | `src/s_n_sales/pipeline/draft.py` | unit test |
 | Facts/eligibility/manual draft | `quality/facts.py`, `quality/repository.py`, `quality/urls.py`; schemas `deal-facts.v1`, `publication-payload.v1` | source/evidence/variant/condition, gate độc lập ranking; tests DEAL |
+| Allowlist URL version hóa | `config/url-allowlist.v1.json`, `schemas/url-allowlist.v1.json`, `quality/allowlist.py`, `quality/urls.py`, ADR-0011; `tests/test_url_allowlist.py` | thêm domain cần `reference` chính thức + `verified_on`; builder/flow/API đều bắt buộc policy; T4 |
 | Evidence retention | `evidence/vault.py` | source/retained digests khác nhau, payload thực, permission expiry/tombstone, known-sensitive redaction |
 | Final payload/grounded composition | `content/render.py`, `content/grounded.py` | text=preview, facts hash/channel/version, không bỏ điều kiện hoặc thêm model claim |
 | Revision/transaction/migration pilot | `api/contracts.py`, `api/store_sqlite.py`, `api/migration.py`; `tests/test_revision_store.py`, `tests/test_store_migration.py` | If-Match/409/428; history append-only; migration preview/rollback; T4 |
@@ -29,5 +30,7 @@
 | Lộ trình phát triển | `docs/ROADMAP.md`, `docs/PHASES.md`, `docs/impl/` | task pack + subtask theo convention |
 | Thêm cổng CI | `.github/workflows/ci.yml`; nối vào `needs` của `quality` | PR thật phải chạy cổng đó |
 | Đối chiếu `PROJECT-STATUS.md` với git thật | `tools/check_status_freshness.py`, job `status-freshness` (chạy khi push `bootstrap/base`) | SHA là tổ tiên của HEAD; nhánh nêu tên còn tồn tại trên remote |
+| Ranh giới lỗi HTTP, JSON chặt, throttle đăng nhập, fencing worker/recall | `api/app.py`, `domain/json_value.py::json_object`, `publishing/worker.py`, `publishing/recall.py` | `tests/test_audit_hardening.py`; không echo exception, không `json.loads` trên input ngoài |
+| Đọc/ghi store từ module khác | `SqliteOperatorStore.read()`, `.transaction()`, `.in_transaction`, `.decide_in_transaction` | không chạm `store._lock`/`_conn` ngoài `api/` (`EncapsulationTests`) |
 | Ghi bẫy tái diễn | `TRAPS.md` | ngày, triệu chứng, nguyên nhân, cách rà, PR |
 | Giao việc phiên mới | `docs/TASK-PACK.md` / `docs/task-packs/` | đủ mục tiêu, phạm vi, nghiệm thu; việc lớn → subtask |
