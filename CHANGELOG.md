@@ -4,6 +4,13 @@ Mọi thay đổi đáng kể của dự án được ghi tại đây theo [Keep
 
 ## Chưa phát hành
 
+### Tích hợp Đồng Hành — pilot chỉ đọc (chưa triển khai)
+
+- Thêm WSGI view riêng `s_n_sales.platform_web`: xác thực operator riêng, Host cố định, dữ liệu Sales mở chỉ đọc, phân trang/giá chuẩn/escaping; không có endpoint ghi, duyệt hoặc đăng.
+- Thêm mẫu systemd và Cloudflare Access/Tunnel, runbook và ADR0011 đề xuất; không thay API local, DNS, secret, dữ liệu Learning hay bật live publishing.
+- Thêm 12 regression cho auth, Host, phương thức HTTP, cấu hình, lỗi an toàn và tính bất biến DB sau đọc/restart. CI đúng HEAD và human T4 vẫn bắt buộc.
+- Đồng bộ checkpoint: #42/#43 đã merge, base a78da48e; tài liệu audit lịch sử giữ nguyên.
+
 ### Nâng `actions/upload-artifact` 7.0.1 → 7.0.2 (#51)
 
 - `.github/workflows/ci.yml`: bản patch, thử lại khi dịch vụ artifact trả HTTP 429 (tôn trọng `Retry-After`), `@actions/artifact` 6.3.1; không có breaking change ([release v7.0.2](https://github.com/actions/upload-artifact/releases/tag/v7.0.2), tra 2026-11-16). Chỉ CI, không đổi hành vi sản phẩm.
